@@ -133,7 +133,7 @@ const App = () => {
     <>
       <span
         ref={growingSpan}
-        className="growing top-[-20px] rounded-full left-[-20px] w-5 h-5 fixed block flex items-center justify-center text-black cursor-none pointer-events-none"
+        className="growing top-[-20px]  rounded-full left-[-20px] w-5 h-5 fixed block flex items-center justify-center text-black cursor-none pointer-events-none"
       ></span>
       <div className="relative w-full min-h-screen">
         {showCanvas &&
@@ -191,13 +191,13 @@ const App = () => {
         </div>
       </div>
       <hr className="mx-[1%] border-gray-300 border-y-2"></hr>
-      <div className="relative w-full min-h-screen flex flex-col md:flex-row justify-center mt-10 md:mt-20 items-center px-4 md:px-0">
+      <div className="relative w-full min-h-screen flex flex-col md:flex-row justify-center mt-10 md:mt-20 px-4 md:px-0">
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[1].map((canvasDetails, index) => (
             <Canvas key={index} details={canvasDetails} />
           ))}
-        <div className="w-full md:w-[30%] flex justify-start items-center md:text-left mb-8 md:mb-0">
+        <div className="w-full md:w-[30%]  md:text-left mb-8 md:mb-0">
           <h1> 01 - WHAT WE DO</h1>
         </div>
         <div className="w-full md:w-[30%]">
