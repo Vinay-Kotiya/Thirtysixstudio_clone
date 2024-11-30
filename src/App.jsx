@@ -128,6 +128,35 @@ const App = () => {
       headingElement.removeEventListener("mouseleave", handleHeadingLeave);
     };
   }, []);
+  useGSAP(() => {
+    gsap.from(headingRef.current, {
+      // scale: 0.8,
+      x: -100,
+      opacity: 0,
+      duration: 1,
+    });
+    gsap.from("#page1 nav ", {
+      y: -20,
+      duration: 1,
+      opacity: 0,
+    });
+    gsap.from("#page1 .textcontainer div", {
+      y: -20,
+      opacity: 0,
+      duration: 1,
+    });
+    gsap.from("#page2 div", {
+      y: 20,
+      duration: 1,
+      // scrollTrigger: {
+      //   trigger: "#page2",
+      //   start: "top top",
+      //   end: "+=500",
+      //   scrub: 2,
+      // },
+      scrollTrigger: "page2",
+    });
+  });
 
   return (
     <>
@@ -135,7 +164,7 @@ const App = () => {
         ref={growingSpan}
         className="growing top-[-20px]  rounded-full left-[-20px] w-5 h-5 fixed block flex items-center justify-center text-black cursor-none pointer-events-none"
       ></span>
-      <div className="relative w-full min-h-screen">
+      <div id="page1" className="relative w-full min-h-screen">
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[0].map((canvasDetails, index) => (
@@ -191,7 +220,10 @@ const App = () => {
         </div>
       </div>
       <hr className="mx-[1%] border-gray-300 border-y-2"></hr>
-      <div className="relative w-full min-h-screen flex flex-col md:flex-row justify-center mt-10 md:mt-20 px-4 md:px-0">
+      <div
+        id="page2"
+        className="relative w-full min-h-screen flex flex-col md:flex-row justify-center mt-10 md:mt-20 px-4 md:px-0"
+      >
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[1].map((canvasDetails, index) => (
@@ -227,7 +259,7 @@ const App = () => {
           ))}
         <div className="w-[50%] h-[50%]  flex flex-col items-start justify-center">
           <p className="text-xl my-10 font-bold">our services</p>
-          <p className="text-3xl font-semibold  whitespace-normal">
+          <p className="text-3xl md:text-sm font-semibold  whitespace-normal">
             We provide captivating design, interactive animations, advanced
             usability, reliable code, and immaculate project coordination.
             Whether you need a campaign built from scratch or assistance at a
