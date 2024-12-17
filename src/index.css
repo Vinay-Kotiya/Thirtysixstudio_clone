@@ -15,6 +15,32 @@ canvas {
 span.growing {
   background-color: #fd2c2a;
 }
+.small_size_h1 {
+  display: none;
+}
+.big_size_h1 {
+  display: block;
+}
+@media (max-width: 768px) {
+  .big_size_h1 {
+    display: none;
+  }
+  .small_size_h1 {
+    display: block;
+  }
+}
+@media (max-width: 450px) {
+  .small_size_h1 {
+    font-size: 25vw;
+  }
+}
+.group {
+  border-radius: 5px;
+}
+.group:hover {
+  background-color: #fd2c2a;
+  transition: 0.3s;
+}
 
 .checkbox-wrapper-54 input[type="checkbox"] {
   visibility: hidden;
@@ -67,7 +93,7 @@ span.growing {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #f4f4f5;
+  background-color: #cdcdcf;
   transition: 0.4s;
   border-radius: 30px;
 }

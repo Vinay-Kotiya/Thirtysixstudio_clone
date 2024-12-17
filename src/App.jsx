@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Canvas from "./Canvas";
 import data from "./data";
 import LocomotiveScroll from "locomotive-scroll";
+import { Link } from "react-scroll";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 const App = () => {
@@ -135,26 +136,26 @@ const App = () => {
       opacity: 0,
       duration: 1,
     });
-    gsap.from("#page1 nav ", {
+    gsap.from("#home nav ", {
       y: -20,
       duration: 1,
       opacity: 0,
     });
-    gsap.from("#page1 .textcontainer div", {
+    gsap.from("#home .textcontainer div", {
       y: -20,
       opacity: 0,
       duration: 1,
     });
-    gsap.from("#page2 div", {
+    gsap.from("#about div", {
       y: 20,
       duration: 1,
       // scrollTrigger: {
-      //   trigger: "#page2",
+      //   trigger: "#about",
       //   start: "top top",
       //   end: "+=500",
       //   scrub: 2,
       // },
-      scrollTrigger: "page2",
+      scrollTrigger: "about",
     });
   });
 
@@ -162,18 +163,26 @@ const App = () => {
     <>
       <span
         ref={growingSpan}
-        className="growing top-[-20px]  rounded-full left-[-20px] w-5 h-5 fixed block flex items-center justify-center text-black cursor-none pointer-events-none"
+        className="growing top-[-20px]  rounded-full left-[-20px] w-5 h-5 fixed  items-center justify-center text-black cursor-none pointer-events-none"
       ></span>
-      <div id="page1" className="relative w-full min-h-screen">
+      <div id="home" className="relative w-full min-h-screen">
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[0].map((canvasDetails, index) => (
             <Canvas key={index} details={canvasDetails} />
           ))}
         <div className="w-full h-screen">
-          <nav className="flex flex-col md:flex-row justify-between items-center w-full p-4 z-50">
+          <nav className="flex flex-col md:flex-row justify-between  items-center w-full p-4 z-50">
             <span className="text-xl md:text-2xl mb-4 md:mb-0">
-              Thirtysixstudio
+              <Link
+                to="home"
+                spy={true}
+                smooth={true}
+                offset={0}
+                duration={700}
+              >
+                Thirtysixstudio
+              </Link>
             </span>
             <div className="checkbox-wrapper-54 ">
               <label className="switch">
@@ -182,14 +191,18 @@ const App = () => {
               </label>
             </div>
             <ul className="flex flex-wrap gap-4 md:gap-8 justify-center">
-              {["Home", "About", "Projects", "Contact"].map((link, index) => (
+              {["Home", "About", "Services", "Contact"].map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={`${link.toLowerCase()}`}
+                  <Link
+                    to={`${link.toLowerCase()}`}
+                    spy={true}
+                    smooth={true}
+                    offset={0}
+                    duration={700}
                     className="text-sm md:text-base relative after:content-[''] after:absolute after:w-full after:h-[1.5px] after:bg-[#fd2c2a] after:left-0 after:bottom-0 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left"
                   >
                     {link}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -209,11 +222,19 @@ const App = () => {
               <p className="text-lg md:text-xl mt-4 md:mt-7">Scroll</p>
             </div>
             <div className="w-full absolute bottom-0 left-0">
-              <h1
-                ref={headingRef}
-                className="text-[12vw] md:text-[14vw] lg:text-[16vw] pl-2 md:pl-5 leading-none font-normal tracking-tight cursor-pointer"
-              >
-                Thirtysixstudio
+              <h1 ref={headingRef}>
+                <h1 className="big_size_h1 flex-col text-[14vw] lg:text-[16vw] pl-2 md:pl-5 leading-none font-normal tracking-tight cursor-pointer">
+                  Thirtysixstudio
+                </h1>
+                <h1 className="small_size_h1 flex-col text-[20vw] lg:text-[16vw]  pl-2 md:pl-5 leading-none font-normal tracking-tight cursor-pointer">
+                  Thirty
+                </h1>
+                <h1 className="small_size_h1 flex-col text-[20vw] lg:text-[16vw] pl-2 md:pl-5 leading-none font-normal tracking-tight cursor-pointer">
+                  six
+                </h1>
+                <h1 className="small_size_h1 flex-col text-[20vw] lg:text-[16vw]  pl-2 md:pl-5 leading-none font-normal tracking-tight cursor-pointer">
+                  studio
+                </h1>
               </h1>
             </div>
           </div>
@@ -221,8 +242,8 @@ const App = () => {
       </div>
       <hr className="mx-[1%] border-gray-300 border-y-2"></hr>
       <div
-        id="page2"
-        className="relative w-full min-h-screen flex flex-col md:flex-row justify-center mt-10 md:mt-20 px-4 md:px-0"
+        id="about"
+        className="relative w-full min-h-screen flex flex-col md:flex-row justify-center pt-10 md:mt-20 px-4 md:px-0"
       >
         {showCanvas &&
           window.innerWidth >= 470 &&
@@ -251,15 +272,18 @@ const App = () => {
         </div>
       </div>
       <hr className="mx-[1%] border-gray-300 border-y-2"></hr>
-      <div className=" relative w-full min-h-screen flex flex-wrap md:flex-col justify-center mt-10 md:mt-20 items-center px-4 md:px-0">
+      <div
+        id="services"
+        className=" relative w-full min-h-screen flex flex-wrap md:flex-col justify-center mt-10 md:mt-20 items-center px-4 md:px-0"
+      >
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[3].map((canvasDetails, index) => (
             <Canvas key={index} details={canvasDetails} />
           ))}
-        <div className="w-[50%] h-[50%]  flex flex-col items-start justify-center">
-          <p className="text-xl my-10 font-bold">our services</p>
-          <p className="text-3xl md:text-sm font-semibold  whitespace-normal">
+        <div className="md:w-[50%] h-[50%] w-full flex flex-col items-start justify-center">
+          <p className="text-2xl my-10 font-bold">our services</p>
+          <p className="text-xl md:text-lg font-semibold  whitespace-normal">
             We provide captivating design, interactive animations, advanced
             usability, reliable code, and immaculate project coordination.
             Whether you need a campaign built from scratch or assistance at a
@@ -271,12 +295,12 @@ const App = () => {
         <div className="w-full md:w-[50%] h-auto md:h-[50%] mt-10 flex flex-col items-start justify-center px-4 md:px-0">
           <div className="w-full space-y-4 md:space-y-6">
             <details className="group">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
+              <summary className=" dropdown flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
                 <span>Creative</span>
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
               <hr className="border-gray-300 border-y-2"></hr>
-              <p className="text-gray-600 mt-3 text-sm md:text-base group-open:animate-fadeIn">
+              <p className="text-black-600 mt-3 text-sm md:text-base bg-slate-400 p-5 rounded group-open:animate-fadeIn">
                 Strategic creative direction and conceptualization for digital
                 campaigns and experiences.
               </p>
@@ -284,36 +308,36 @@ const App = () => {
             <hr className="border-gray-300 border-y-2"></hr>
 
             <details className="group">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
+              <summary className=" dropdown flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
                 <span>Animation</span>
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
               <hr className="border-gray-300 border-y-2"></hr>
-              <p className="text-gray-600 mt-3 text-sm md:text-base group-open:animate-fadeIn">
+              <p className="text-black-600 mt-3 text-sm md:text-base bg-slate-400 p-5 rounded group-open:animate-fadeIn">
                 Dynamic motion graphics and interactive animations that bring
                 your content to life.
               </p>
             </details>
             <hr className="border-gray-300 border-y-2"></hr>
             <details className="group">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
+              <summary className=" dropdown flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
                 <span>Design</span>
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
               <hr className="border-gray-300 border-y-2"></hr>
-              <p className="text-gray-600 mt-3 text-sm md:text-base group-open:animate-fadeIn">
+              <p className="text-black-600 mt-3 text-sm md:text-base bg-slate-400 p-5 rounded group-open:animate-fadeIn">
                 Modern UI/UX design solutions focused on user experience and
                 visual aesthetics.
               </p>
             </details>
             <hr className="border-gray-300 border-y-2"></hr>
             <details className="group">
-              <summary className="flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
+              <summary className=" dropdown flex justify-between items-center font-medium cursor-pointer list-none text-lg md:text-xl">
                 <span>Technology</span>
                 <span className="transition group-open:rotate-180">▼</span>
               </summary>
               <hr className="border-gray-300 border-y-2"></hr>
-              <p className="text-gray-600 mt-3 text-sm md:text-base group-open:animate-fadeIn">
+              <p className="text-black-600 mt-3 text-sm md:text-base bg-slate-400 p-5 rounded group-open:animate-fadeIn">
                 Cutting-edge development using latest frameworks and
                 technologies for optimal performance.
               </p>
