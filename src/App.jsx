@@ -11,6 +11,10 @@ const App = () => {
   const headingRef = useRef(null);
   const growingSpan = useRef(null);
   const dayNightMode = useRef(null);
+  const menu_icon = useRef(null);
+  const listContainerRef = useRef(null);
+  const menu_icon_out = useRef(null);
+  const menu_icon_out_on_listClick = useRef(null);
   useEffect(() => {
     const locomotiveScroll = new LocomotiveScroll();
   }, []);
@@ -130,6 +134,86 @@ const App = () => {
     };
   }, []);
   useGSAP(() => {
+    const menu_come = () => {
+      // Set initial state
+      gsap.set(listContainerRef.current, {
+        display: "flex",
+        y: 800,
+        opacity: 1,
+      });
+      // gsap.set(".menuListAnimation", {
+      //   display: "flex",
+      // });
+
+      // Animate menu in
+      gsap.to(listContainerRef.current, {
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        onComplete: () => {
+          gsap.from(".menuListAnimation", {
+            display: "flex",
+            y: 20,
+            opacity: 0,
+            duration: 1,
+            // stagger: 0.1, // Add stagger to animate elements one by one
+            onComplete: () => {
+              gsap.set(".menuListAnimation", {
+                display: "flex",
+              });
+            },
+          });
+        },
+      });
+    };
+
+    const menu_out = () => {
+      // gsap.to(".menuListAnimation", {
+      //   y: 110,
+      //   display: "flex",
+      //   y: -20,
+      //   opacity: 0,
+      //   duration: 1,
+      //   onComplete: () => {
+      //     gsap.set(".menuListAnimation", {
+      //       display: "flex",
+      //     });
+      //   },
+
+      // });
+      // Animate menu out
+      gsap.to(listContainerRef.current, {
+        y: 800,
+        duration: 0.6,
+        ease: "power2.in",
+        onComplete: () => {
+          // Hide menu after animation
+          gsap.set(listContainerRef.current, {
+            display: "none",
+          });
+
+          gsap.set(".menuListAnimation", {
+            display: "none",
+          });
+        },
+      });
+    };
+
+    const handlingMenuAnimation = menu_icon.current;
+    const handlingMenuAnimationOut = menu_icon_out.current;
+    const hMAonListClick = menu_icon_out_on_listClick.current;
+
+    handlingMenuAnimation.addEventListener("click", menu_come);
+    handlingMenuAnimationOut.addEventListener("click", menu_out);
+    hMAonListClick.addEventListener("click", menu_out);
+
+    return () => {
+      handlingMenuAnimation.removeEventListener("click", menu_come);
+      handlingMenuAnimationOut.removeEventListener("click", menu_out);
+      hMAonListClick.removeEventListener("click", menu_out);
+    };
+  }, []);
+  useGSAP(() => {
     gsap.from(headingRef.current, {
       // scale: 0.8,
       x: -100,
@@ -165,15 +249,47 @@ const App = () => {
         ref={growingSpan}
         className="growing top-[-20px]  rounded-full left-[-20px] w-5 h-5 fixed  items-center justify-center text-black cursor-none pointer-events-none"
       ></span>
+      <span
+        ref={listContainerRef}
+        className="listContainerRef h-screen w-screen bg-white border-8 rounded-2xl absolute  z-50  "
+      >
+        <span className="">
+          <span ref={menu_icon_out} className="pr-[10%] flex justify-end">
+            <img
+              className="text-3x h-10 w-10 m-7 mr-9"
+              src="https://www.svgrepo.com/show/522801/close-circle.svg"
+            />
+          </span>
+          <ul
+            ref={menu_icon_out_on_listClick}
+            className="m-5 gap-4 mt-[50%]  md:gap-8 w-screen flex flex-col justify-end items-start"
+          >
+            {["Home", "About", "Services"].map((link, index) => (
+              <li key={index}>
+                <Link
+                  to={`${link.toLowerCase()}`}
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={700}
+                  className="menuListAnimation hidden text-4xl font-bold md:text-base relative after:content-[''] after:absolute after:w-full after:h-[1.5px] after:bg-[#fd2c2a] after:left-0 after:bottom-0 after:scale-x-0 after:origin-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-left"
+                >
+                  {link}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </span>
+      </span>
       <div id="home" className="relative w-full min-h-screen">
         {showCanvas &&
           window.innerWidth >= 470 &&
           data[0].map((canvasDetails, index) => (
             <Canvas key={index} details={canvasDetails} />
           ))}
-        <div className="w-full h-screen">
-          <nav className="flex flex-col md:flex-row justify-between  items-center w-full p-4 z-50">
-            <span className="text-xl md:text-2xl mb-4 md:mb-0">
+        <div className="w-full h-screen  ">
+          <nav className="flex  md:flex-row justify-between  items-center w-full p-4 z-40">
+            <span className="text-xl font-bold md:text-2xl  md:mb-0">
               <Link
                 to="home"
                 spy={true}
@@ -190,8 +306,15 @@ const App = () => {
                 <span className="slider"></span>
               </label>
             </div>
-            <ul className="flex flex-wrap gap-4 md:gap-8 justify-center">
-              {["Home", "About", "Services", "Contact"].map((link, index) => (
+            <span ref={menu_icon} className="menu_icon  hidden text-3xl">
+              Menu
+            </span>
+
+            <ul
+              id="menulist"
+              className="flex flex-wrap gap-4 md:gap-8 justify-center"
+            >
+              {["Home", "About", "Services"].map((link, index) => (
                 <li key={index}>
                   <Link
                     to={`${link.toLowerCase()}`}
@@ -214,12 +337,12 @@ const App = () => {
                 At Thirtysixstudio, we build immersive digital experiences for
                 brands with a purpose.
               </h3>
-              <p className="text-sm md:text-base mt-4 md:mt-7 w-full md:w-[90%] lg:w-[80%] font-normal">
+              <p className="text-xl  md:text-base mt-4 md:mt-7 w-full md:w-[90%] lg:w-[80%] font-normal">
                 We're a boutique production studio focused on design, motion,
                 and creative technology, constantly reimagining what digital
                 craft can do for present-time ads and campaigns.
               </p>
-              <p className="text-lg md:text-xl mt-4 md:mt-7">Scroll</p>
+              <p className="text-xl md:text-xl mt-4 md:mt-7">Scroll</p>
             </div>
             <div className="w-full absolute bottom-0 left-0">
               <h1 ref={headingRef}>
@@ -250,20 +373,20 @@ const App = () => {
           data[1].map((canvasDetails, index) => (
             <Canvas key={index} details={canvasDetails} />
           ))}
-        <div className="w-full md:w-[30%]  md:text-left mb-8 md:mb-0">
+        <div className="w-full md:w-[30%] text-xl font-bold md:text-left mb-8 md:mb-0">
           <h1> 01 - WHAT WE DO</h1>
         </div>
         <div className="w-full md:w-[30%]">
-          <div className="text-2xl md:text-3xl lg:text-4xl">
+          <div className="text-3xl md:text-3xl lg:text-4xl">
             We aim to revolutionize digital production in the advertising space,
             bringing your ideas to life.
           </div>
           <div className="mt-16 md:mt-32">
-            <p className="my-5 md:my-10 text-base md:text-lg">
+            <p className="my-5 md:my-10  text-2xl md:text-lg">
               As a contemporary studio, we use cutting-edge design practices and
               the latest technologies to deliver seamless digital work.
             </p>
-            <p className="my-5 md:my-10 text-base md:text-lg">
+            <p className="my-5 md:my-10 text-2xl md:text-lg">
               Our commitment to creativity, innovation, and simplicity, paired
               with our agile approach, ensures your journey with us is smooth
               and enjoyable from start to finish.

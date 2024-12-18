@@ -8,6 +8,7 @@ body {
   background-color: white;
   color: black;
   font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
 }
 canvas {
   pointer-events: none;
@@ -21,6 +22,10 @@ span.growing {
 .big_size_h1 {
   display: block;
 }
+.listContainerRef {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .big_size_h1 {
     display: none;
@@ -28,10 +33,20 @@ span.growing {
   .small_size_h1 {
     display: block;
   }
+  .menu_icon {
+    display: block;
+    /* display: ruby; */
+  }
+  #menulist {
+    display: none;
+  }
 }
 @media (max-width: 450px) {
   .small_size_h1 {
     font-size: 25vw;
+  }
+  .textcontainer {
+    font-size: 20px;
   }
 }
 .group {
